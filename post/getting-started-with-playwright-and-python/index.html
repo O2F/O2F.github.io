@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="Hugo Fernandes">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="https://o2f.github.io/images/binary_code_stream.jpg">
+    <meta property="twitter:image" content="https://o2f.github.io/images/binary_code_stream.jpg" />
+    
+
+    
+    <meta name="title" content="Getting Started With Playwright and Python" />
+    <meta property="og:title" content="Getting Started With Playwright and Python" />
+    <meta property="twitter:title" content="Getting Started With Playwright and Python" />
+    
+
+    
+    <meta name="description" content="small playwright project with python">
+    <meta property="og:description" content="small playwright project with python" />
+    <meta property="twitter:description" content="small playwright project with python" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="experiences, books, test automation, software testing, testing, test snippets">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <title>Getting Started With Playwright and Python-And Yet Another Blog Borns</title>
+
+    <link rel="canonical" href="/post/getting-started-with-playwright-and-python/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/hugo-theme-cleanwhite.min.css">
+
+    
+    <link rel="stylesheet" href="/css/zanshang.css">
+
+    
+    <link href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.1/css/all.css" rel="stylesheet" type="text/css">
+
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Hugo Fernandes</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/experiences">experiences</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/tags">Tags</a></li>
+                    
+                        <li><a href="/top/about/">ABOUT</a></li>
+                    
+
+                    
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header {
+        background-image: url('/images/binary_code_stream.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        <a class="tag" href="/tags/playwright" title="playwright">
+                            playwright
+                        </a>
+                        
+                        <a class="tag" href="/tags/test-automation" title="test automation">
+                            test automation
+                        </a>
+                        
+                    </div>
+                    <h1>Getting Started With Playwright and Python</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                Hugo Fernandes
+                             
+                            on 
+                            Thursday, June 9, 2022
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                <h1 id="getting-started-with-playwright-and-python">Getting Started with Playwright and Python</h1>
+<p>With Playwright being more and more accepted in the <em>world of test automation</em> and python a great programming language
+to create automation I&rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting
+my experiment in this article.</p>
+<p>Some of what is found in the article can also be found throughout <a href="https://playwright.dev/python/docs/intro">Playwright documentation</a>,
+although in a bit more condensed manner.</p>
+<h2 id="software-versions">Software versions</h2>
+<p>The following software and libs where used:</p>
+<ul>
+<li>Python 3.9 (minimum requirement for playwright is &gt;= python 3.7)</li>
+<li>Pip</li>
+<li>Playwright 1.22 for python</li>
+<li>Pytest - Playwright pytest plugin</li>
+<li>PyCharm Community Edition</li>
+</ul>
+<h2 id="installing-dependencies">Installing dependencies</h2>
+<p>As in any other python project, it is a good practice to create a <em>virtual environment</em> (venv) before start installing any dependency.
+Since I was using PyCharm as soon as I created the project I could create the virtual env directly but if you are reusing
+an old project or your project don&rsquo;t have a venv yet, and you&rsquo;re working with PyCharm you can follow their
+<a href="https://www.jetbrains.com/help/pycharm/creating-virtual-environment.html#python_create_virtual_env">tutorial</a> on how to
+create a virtual environment.</p>
+<p>In the case of other IDE is being used, or the use of CLI is preferred consider checking the documentation on the topic <a href="https://virtualenv.pypa.io/en/stable/">here</a></p>
+<p>After creating the virtual environment, activate it and upgrade pip to its latest version.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>source ./&lt;the_venv_name&gt;/bin/activate
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pip install --upgrade pip
+</span></span></code></pre></div><p>For windows, follow <a href="https://mothergeo-py.readthedocs.io/en/latest/development/how-to/venv-win.html">this article</a>
+that will help to create and activate the virtual environment.</p>
+<p>In the project root folder create a requirements.txt file with the following contents. I&rsquo;m not forcing any versions of the dependencies but if wanted this can be done as explained <a href="https://realpython.com/lessons/using-requirement-files/#:~:text=A%20Beginner's%20Guide%20to%20Pip&amp;text=A%20requirements%20file%20is%20a,current%20projects%20dependencies%20to%20stdout%20.">here</a></p>
+<p>This will allow you to create the project with all its dependencies in other environment. (e.g. CI pipeline)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>### Project Dependencies ###
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pytest
+</span></span><span style="display:flex;"><span>playwright
+</span></span><span style="display:flex;"><span>pytest-playwright
+</span></span><span style="display:flex;"><span>pytest-parallel
+</span></span><span style="display:flex;"><span>pytest-html
+</span></span></code></pre></div><p>After saving the requirements file it is possible to install the project dependencies using <code>pip</code>. For that open a terminal
+in the project root folder and type:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pip install -r requirements.txt
+</span></span></code></pre></div><p>After the project dependencies are installed it is time to install the Playwright browsers (<code>chromium</code>, <code>firefox</code> and <code>webkit</code>)
+using the following command in the CLI.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>playwright install
+</span></span></code></pre></div><p>For non-default options to browser installation the documentation can be found <a href="https://playwright.dev/python/docs/browsers">here</a></p>
+<h2 id="creating-the-automation">Creating the Automation</h2>
+<p>There are some different options described both on the Playwright documentation page and throughout the web.
+I will center the article on the usage of the Playwright synchronous python API and the creation of <code>Page Objects</code> that
+will be used to implement the tests.</p>
+<p>For this demo I will use one of the common web pages for automation training - <a href="https://www.saucedemo.com/">https://www.saucedemo.com/</a></p>
+<h3 id="project-structure">Project structure</h3>
+<p>Since this is a simple project the folder structure will also be simple. Below I represent the most important files
+and folders of this structure</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>project-root/
+</span></span><span style="display:flex;"><span>├─ data_model/
+</span></span><span style="display:flex;"><span>├─ page_objects/
+</span></span><span style="display:flex;"><span>├─ tests/
+</span></span><span style="display:flex;"><span>├─ utils/
+</span></span><span style="display:flex;"><span>├─ .gitignore
+</span></span><span style="display:flex;"><span>├─ pytest.ini
+</span></span><span style="display:flex;"><span>├─ README.md
+</span></span></code></pre></div><h3 id="implementation">Implementation</h3>
+<p>For this demo it will only be created one very simple class that will allow to create a User objects that can be used in
+different login tests</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> dataclasses <span style="color:#f92672">import</span> dataclass, asdict
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@dataclass</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>:
+</span></span><span style="display:flex;"><span>    username: str
+</span></span><span style="display:flex;"><span>    password: str
+</span></span></code></pre></div><p>Following the Playwright <a href="https://playwright.dev/python/docs/pom">documentation</a> for the landing page (login) the following
+Page Object class can be created.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> playwright.sync_api <span style="color:#f92672">import</span> Page, expect
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> model.user <span style="color:#f92672">import</span> User
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoginPage</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _logo<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.login_logo&#34;</span>
+</span></span><span style="display:flex;"><span>    _username_selector <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#user-name&#34;</span>
+</span></span><span style="display:flex;"><span>    _password_selector <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#password&#34;</span>
+</span></span><span style="display:flex;"><span>    _login_button_selector <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#login-button&#34;</span>
+</span></span><span style="display:flex;"><span>    _mascot_image <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.bot_column&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, page: Page):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page <span style="color:#f92672">=</span> page
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_loaded</span>(self) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_logo))<span style="color:#f92672">.</span>to_be_visible()
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_username_selector))<span style="color:#f92672">.</span>to_be_visible()
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_password_selector))<span style="color:#f92672">.</span>to_be_visible()
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_login_button_selector))<span style="color:#f92672">.</span>to_be_visible()
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_mascot_image))<span style="color:#f92672">.</span>to_be_visible()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">goto_login_page</span>(self) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>goto(<span style="color:#e6db74">&#34;/&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_login_with</span>(self, user: User) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_username_selector)<span style="color:#f92672">.</span>click()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_username_selector)<span style="color:#f92672">.</span>type(user<span style="color:#f92672">.</span>username)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_password_selector)<span style="color:#f92672">.</span>click()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_password_selector)<span style="color:#f92672">.</span>type(user<span style="color:#f92672">.</span>password)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_login_button_selector)<span style="color:#f92672">.</span>click()
+</span></span></code></pre></div><p>And for catalog a similar class can be created. For this demo this class will be incomplete since it is where you can do
+a big part of the actions (if it was a real shop) so the same class would have more methods.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> playwright.sync_api <span style="color:#f92672">import</span> Page, expect
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> logging
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CatalogPage</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.title&#34;</span>
+</span></span><span style="display:flex;"><span>    _grid_products <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#inventory_container&#34;</span>
+</span></span><span style="display:flex;"><span>    _item <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.inventory_item&#34;</span>
+</span></span><span style="display:flex;"><span>    _item_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.inventory_item_name&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, page: Page):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page <span style="color:#f92672">=</span> page
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_loaded</span>(self):
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_title))<span style="color:#f92672">.</span>to_be_visible()
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_grid_products)<span style="color:#f92672">.</span>nth(<span style="color:#ae81ff">0</span>))<span style="color:#f92672">.</span>to_be_visible()
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_item))<span style="color:#f92672">.</span>to_have_count(<span style="color:#ae81ff">6</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">validate_item_nr_text_is</span>(self, index: int, text: str) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_item_name)<span style="color:#f92672">.</span>nth(index))<span style="color:#f92672">.</span>to_contain_text(text)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">validate_title_is</span>(self, text: str) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_title))<span style="color:#f92672">.</span>to_have_text(text)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    (<span style="color:#f92672">...</span>)
+</span></span></code></pre></div><p>Since the site allow us to use some distinct users it is possible to create a couple simple tests. This will be
+quite useful ahead since will allow us to create concurrent python processes creating the possibility of running the
+tests faster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pytest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> model.user <span style="color:#f92672">import</span> User
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pages.sauce_demo_pages.catalog_page <span style="color:#f92672">import</span> CatalogPage
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pages.sauce_demo_pages.login_page <span style="color:#f92672">import</span> LoginPage
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> playwright.sync_api <span style="color:#f92672">import</span> Page
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@pytest</span><span style="color:#f92672">.</span>fixture
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">login_page</span>(page: Page):
+</span></span><span style="display:flex;"><span>    login_page <span style="color:#f92672">=</span> LoginPage(page)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> login_page
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@pytest</span><span style="color:#f92672">.</span>fixture
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">catalog_page</span>(page: Page):
+</span></span><span style="display:flex;"><span>    catalog_page <span style="color:#f92672">=</span> CatalogPage(page)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> catalog_page
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_valid_user_login</span>(login_page, catalog_page):
+</span></span><span style="display:flex;"><span>    valid_user <span style="color:#f92672">=</span> User(<span style="color:#e6db74">&#34;standard_user&#34;</span>, <span style="color:#e6db74">&#34;secret_sauce&#34;</span>)
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>goto_login_page()
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>is_loaded()
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>do_login_with(valid_user)
+</span></span><span style="display:flex;"><span>    catalog_page<span style="color:#f92672">.</span>is_loaded()
+</span></span><span style="display:flex;"><span>    catalog_page<span style="color:#f92672">.</span>validate_title_is(<span style="color:#e6db74">&#34;Products&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_invalid_user_login</span>(login_page):
+</span></span><span style="display:flex;"><span>    invalid_user <span style="color:#f92672">=</span> User(<span style="color:#e6db74">&#34;invalid_user&#34;</span>, <span style="color:#e6db74">&#34;secret_sauce&#34;</span>)
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>goto_login_page()
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>is_loaded()
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>do_login_with(invalid_user)
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>validate_error_message_equals(<span style="color:#e6db74">&#34;Epic sadface: Username and password do not match any user in this service&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_locked_user_login</span>(login_page):
+</span></span><span style="display:flex;"><span>    locked_user <span style="color:#f92672">=</span> User(<span style="color:#e6db74">&#34;locked_out_user&#34;</span>, <span style="color:#e6db74">&#34;secret_sauce&#34;</span>)
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>goto_login_page()
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>is_loaded()
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>do_login_with(locked_user)
+</span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>validate_error_message_equals(<span style="color:#e6db74">&#34;Epic sadface: Sorry, this user has been locked out.&#34;</span>)
+</span></span></code></pre></div><p>Now that some tests are in place its possible to create the pytest.ini making use of options that playwright-pytest plugin offers.
+(for all the detail on playwright-pytest plugin consult playwright <a href="https://playwright.dev/python/docs/test-runners">documentation</a>)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[pytest]
+</span></span><span style="display:flex;"><span>addopts = --base-url https://www.saucedemo.com/ --headed --browser chromium --browser firefox --browser webkit --screenshot only-on-failure --html=target/reports/report.html
+</span></span></code></pre></div><p>The above options will allow the tests to run in headed mode (by default playwright runs in headless mode) in all the
+browser playwright offers, saving a screenshot in case a test fails and in the end generating a html report.</p>
+<p>Up until where I could experiment, with the use of <code>pytest-parallel</code> dependency it is possible to create parallel tests
+runs. <strong>There is although a very important note from the playwright developers that is Playwright is not <a href="https://playwright.dev/python/docs/intro#threading">thread-safe</a></strong>
+(at least at the time of the writing of this article). To be safer I make use of the <code>workers</code> (process) option instead
+of <code>tests-per-worker</code> (threads) option, allowing each test to run in a distinct python process.
+To enable this it is only needed to add the option to the <em>pytest.ini addopts</em> as displayed below.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[pytest]
+</span></span><span style="display:flex;"><span>addopts = --base-url https://www.saucedemo.com/ --headed --browser chromium --browser firefox --browser webkit --screenshot only-on-failure --html=target/reports/report.html --workers auto
+</span></span></code></pre></div><p>For this simple demo the following times were achieved:</p>
+<p>in total 9 test (3 test in 3 browser)</p>
+<p>headed mode:</p>
+<ul>
+<li>sequential time:  14.29s</li>
+<li>concurrent time (3 distinct processes): 10.24s</li>
+<li>concurrent time (auto): 8.72s</li>
+</ul>
+<p>headless mode:</p>
+<ul>
+<li>sequential time:  10.68s</li>
+<li>concurrent time (3 distinct processes): 7.04s</li>
+<li>concurrent time (auto): 6.00s</li>
+</ul>
+<p>This means around <strong>39%</strong> less time when running with the <code>auto</code> flag enabled in headed mode and around <strong>44%</strong> when running in
+headless mode.</p>
+<p>Other good particularity of <em>python-parallel</em> is the synchronization of results is performed internally, so the test
+report is not affected.</p>
+<h2 id="other-links-and-references">Other Links and References</h2>
+<h3 id="references">References</h3>
+<ul>
+<li>dataclasses: <a href="https://realpython.com/python-data-classes/">https://realpython.com/python-data-classes/</a></li>
+</ul>
+<h3 id="links">Links</h3>
+<ul>
+<li>pytest-parallel: <a href="https://pypi.org/project/pytest-parallel/">https://pypi.org/project/pytest-parallel/</a></li>
+<li>pytest-html: <a href="https://pypi.org/project/pytest-html/">https://pypi.org/project/pytest-html/</a></li>
+<li>ascii tree generator: <a href="https://ascii-tree-generator.com/">https://ascii-tree-generator.com/</a></li>
+</ul>
+
+
+                
+
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/why-and-how-to-create-github-blog/" data-toggle="tooltip" data-placement="top" title="Why I created a github blog and how to do it">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/blogs" title="blogs">
+                            blogs
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/diy" title="diy">
+                            diy
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/playwright" title="playwright">
+                            playwright
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/test-automation" title="test-automation">
+                            test-automation
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+                
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:oxy.fluid@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    
+                    
+                    
+
+		            
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/o2f">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/hugo-fernandes-a727083b">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    
+                    
+                    
+                    
+                    
+            
+            
+            
+           
+                   <li>
+                       <a href='' rel="alternate" type="application/rss+xml" title="Hugo Fernandes" >
+                           <span class="fa-stack fa-lg">
+                               <i class="fas fa-circle fa-stack-2x"></i>
+                               <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
+                           </span>
+                       </a>
+                   </li>
+            
+             </ul>
+		<p class="copyright text-muted">
+                    Copyright &copy; Hugo Fernandes 2022
+                    <br>
+                    <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">CleanWhite Hugo Theme</a> by <a href="https://zhaohuabing.com">Huabing</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=zhaohuabing&repo=hugo-theme-cleanwhite&type=star&count=true" >
+                    </iframe>
+                    <br>
+                    <a href='https://www.freepik.com/vectors/cyberspace'>Cyberspace vector created by rawpixel.com</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+    loadAsync("\/js\/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+</body>
+</html>

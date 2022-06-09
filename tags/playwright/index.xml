@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hugo Fernandes</title>
-    <link>https://o2f.github.io/</link>
-    <description>Recent content on Hugo Fernandes</description>
+    <title>playwright on Hugo Fernandes</title>
+    <link>https://o2f.github.io/tags/playwright/</link>
+    <description>Recent content in playwright on Hugo Fernandes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 09 Jun 2022 14:16:13 +0100</lastBuildDate><atom:link href="https://o2f.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 09 Jun 2022 14:16:13 +0100</lastBuildDate><atom:link href="https://o2f.github.io/tags/playwright/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Getting Started With Playwright and Python</title>
       <link>https://o2f.github.io/post/getting-started-with-playwright-and-python/</link>
@@ -15,24 +15,6 @@
       <guid>https://o2f.github.io/post/getting-started-with-playwright-and-python/</guid>
       <description>Getting Started with Playwright and Python With Playwright being more and more accepted in the world of test automation and python a great programming language to create automation I&amp;rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting my experiment in this article.
 Some of what is found in the article can also be found throughout Playwright documentation, although in a bit more condensed manner.</description>
-    </item>
-    
-    <item>
-      <title>Why I created a github blog and how to do it</title>
-      <link>https://o2f.github.io/post/why-and-how-to-create-github-blog/</link>
-      <pubDate>Fri, 15 Apr 2022 12:31:20 +0100</pubDate>
-      
-      <guid>https://o2f.github.io/post/why-and-how-to-create-github-blog/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://o2f.github.io/top/about/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://o2f.github.io/top/about/</guid>
-      <description>Yet to be born, being lazy at the moment&amp;hellip; come back later.</description>
     </item>
     
   </channel>
