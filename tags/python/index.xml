@@ -8,12 +8,12 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 09 Jun 2022 14:16:13 +0100</lastBuildDate><atom:link href="https://o2f.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Getting Started With Playwright and Python</title>
+      <title>Getting Started With Playwright using Python</title>
       <link>https://o2f.github.io/post/getting-started-with-playwright-and-python/</link>
       <pubDate>Thu, 09 Jun 2022 14:16:13 +0100</pubDate>
       
       <guid>https://o2f.github.io/post/getting-started-with-playwright-and-python/</guid>
-      <description>Getting Started with Playwright and Python With Playwright being more and more accepted in the world of test automation and python a great programming language to create automation I&amp;rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting my experiment in this article.
+      <description>Getting Started with Playwright using Python With Playwright being more and more accepted in the world of test automation and python a great programming language to create automation I&amp;rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting my experiment in this article.
 Some of what is found in the article can also be found throughout Playwright documentation, although in a bit more condensed manner.</description>
     </item>
     
