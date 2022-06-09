@@ -211,11 +211,8 @@
 
                 
                 <h1 id="getting-started-with-playwright-and-python">Getting Started with Playwright and Python</h1>
-<p>With Playwright being more and more accepted in the <em>world of test automation</em> and python a great programming language
-to create automation I&rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting
-my experiment in this article.</p>
-<p>Some of what is found in the article can also be found throughout <a href="https://playwright.dev/python/docs/intro">Playwright documentation</a>,
-although in a bit more condensed manner.</p>
+<p>With Playwright being more and more accepted in the <em>world of test automation</em> and python a great programming language to create automation I&rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting my experiment in this article.</p>
+<p>Some of what is found in the article can also be found throughout <a href="https://playwright.dev/python/docs/intro">Playwright documentation</a>, although in a bit more condensed manner.</p>
 <h2 id="software-versions">Software versions</h2>
 <p>The following software and libs where used:</p>
 <ul>
@@ -227,17 +224,13 @@ although in a bit more condensed manner.</p>
 </ul>
 <h2 id="installing-dependencies">Installing dependencies</h2>
 <p>As in any other python project, it is a good practice to create a <em>virtual environment</em> (venv) before start installing any dependency.
-Since I was using PyCharm as soon as I created the project I could create the virtual env directly but if you are reusing
-an old project or your project don&rsquo;t have a venv yet, and you&rsquo;re working with PyCharm you can follow their
-<a href="https://www.jetbrains.com/help/pycharm/creating-virtual-environment.html#python_create_virtual_env">tutorial</a> on how to
-create a virtual environment.</p>
+Since I was using PyCharm as soon as I created the project I could create the virtual env directly but if you are reusing an old project or your project don&rsquo;t have a venv yet, and you&rsquo;re working with PyCharm you can follow their <a href="https://www.jetbrains.com/help/pycharm/creating-virtual-environment.html#python_create_virtual_env">tutorial</a> on how to create a virtual environment.</p>
 <p>In the case of other IDE is being used, or the use of CLI is preferred consider checking the documentation on the topic <a href="https://virtualenv.pypa.io/en/stable/">here</a></p>
 <p>After creating the virtual environment, activate it and upgrade pip to its latest version.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>source ./&lt;the_venv_name&gt;/bin/activate
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>pip install --upgrade pip
-</span></span></code></pre></div><p>For windows, follow <a href="https://mothergeo-py.readthedocs.io/en/latest/development/how-to/venv-win.html">this article</a>
-that will help to create and activate the virtual environment.</p>
+</span></span></code></pre></div><p>For windows, follow <a href="https://mothergeo-py.readthedocs.io/en/latest/development/how-to/venv-win.html">this article</a> that will help to create and activate the virtual environment.</p>
 <p>In the project root folder create a requirements.txt file with the following contents. I&rsquo;m not forcing any versions of the dependencies but if wanted this can be done as explained <a href="https://realpython.com/lessons/using-requirement-files/#:~:text=A%20Beginner's%20Guide%20to%20Pip&amp;text=A%20requirements%20file%20is%20a,current%20projects%20dependencies%20to%20stdout%20.">here</a></p>
 <p>This will allow you to create the project with all its dependencies in other environment. (e.g. CI pipeline)</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>### Project Dependencies ###
@@ -247,21 +240,17 @@ that will help to create and activate the virtual environment.</p>
 </span></span><span style="display:flex;"><span>pytest-playwright
 </span></span><span style="display:flex;"><span>pytest-parallel
 </span></span><span style="display:flex;"><span>pytest-html
-</span></span></code></pre></div><p>After saving the requirements file it is possible to install the project dependencies using <code>pip</code>. For that open a terminal
-in the project root folder and type:</p>
+</span></span></code></pre></div><p>After saving the requirements file it is possible to install the project dependencies using <code>pip</code>. For that open a terminal in the project root folder and type:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pip install -r requirements.txt
-</span></span></code></pre></div><p>After the project dependencies are installed it is time to install the Playwright browsers (<code>chromium</code>, <code>firefox</code> and <code>webkit</code>)
-using the following command in the CLI.</p>
+</span></span></code></pre></div><p>After the project dependencies are installed it is time to install the Playwright browsers (<code>chromium</code>, <code>firefox</code> and <code>webkit</code>) using the following command in the CLI.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>playwright install
 </span></span></code></pre></div><p>For non-default options to browser installation the documentation can be found <a href="https://playwright.dev/python/docs/browsers">here</a></p>
 <h2 id="creating-the-automation">Creating the Automation</h2>
 <p>There are some different options described both on the Playwright documentation page and throughout the web.
-I will center the article on the usage of the Playwright synchronous python API and the creation of <code>Page Objects</code> that
-will be used to implement the tests.</p>
+I will center the article on the usage of the Playwright synchronous python API and the creation of <code>Page Objects</code> that will be used to implement the tests.</p>
 <p>For this demo I will use one of the common web pages for automation training - <a href="https://www.saucedemo.com/">https://www.saucedemo.com/</a></p>
 <h3 id="project-structure">Project structure</h3>
-<p>Since this is a simple project the folder structure will also be simple. Below I represent the most important files
-and folders of this structure</p>
+<p>Since this is a simple project the folder structure will also be simple. Below I represent the most important files and folders of this structure</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>project-root/
 </span></span><span style="display:flex;"><span>├─ data_model/
 </span></span><span style="display:flex;"><span>├─ page_objects/
@@ -271,16 +260,14 @@ and folders of this structure</p>
 </span></span><span style="display:flex;"><span>├─ pytest.ini
 </span></span><span style="display:flex;"><span>├─ README.md
 </span></span></code></pre></div><h3 id="implementation">Implementation</h3>
-<p>For this demo it will only be created one very simple class that will allow to create a User objects that can be used in
-different login tests</p>
+<p>For this demo it will only be created one very simple class that will allow to create a User objects that can be used in different login tests</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> dataclasses <span style="color:#f92672">import</span> dataclass, asdict
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@dataclass</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>:
 </span></span><span style="display:flex;"><span>    username: str
 </span></span><span style="display:flex;"><span>    password: str
-</span></span></code></pre></div><p>Following the Playwright <a href="https://playwright.dev/python/docs/pom">documentation</a> for the landing page (login) the following
-Page Object class can be created.</p>
+</span></span></code></pre></div><p>Following the Playwright <a href="https://playwright.dev/python/docs/pom">documentation</a>, for the landing page (login) the following Page Object class can be created.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> playwright.sync_api <span style="color:#f92672">import</span> Page, expect
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> model.user <span style="color:#f92672">import</span> User
 </span></span><span style="display:flex;"><span>
@@ -312,8 +299,7 @@ Page Object class can be created.</p>
 </span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_password_selector)<span style="color:#f92672">.</span>click()
 </span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_password_selector)<span style="color:#f92672">.</span>type(user<span style="color:#f92672">.</span>password)
 </span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_login_button_selector)<span style="color:#f92672">.</span>click()
-</span></span></code></pre></div><p>And for catalog a similar class can be created. For this demo this class will be incomplete since it is where you can do
-a big part of the actions (if it was a real shop) so the same class would have more methods.</p>
+</span></span></code></pre></div><p>And for catalog a similar class can be created. For this demo this class will be incomplete since it is where you can do a big part of the actions (if it was a real shop) so the same class would have more methods.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> playwright.sync_api <span style="color:#f92672">import</span> Page, expect
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> logging
 </span></span><span style="display:flex;"><span>
@@ -341,9 +327,7 @@ a big part of the actions (if it was a real shop) so the same class would have m
 </span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_title))<span style="color:#f92672">.</span>to_have_text(text)
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    (<span style="color:#f92672">...</span>)
-</span></span></code></pre></div><p>Since the site allow us to use some distinct users it is possible to create a couple simple tests. This will be
-quite useful ahead since will allow us to create concurrent python processes creating the possibility of running the
-tests faster.</p>
+</span></span></code></pre></div><p>Since the site allow us to use some distinct users it is possible to create a couple simple tests. This will be quite useful ahead since will allow us to create concurrent python processes creating the possibility of running the tests faster.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pytest
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> model.user <span style="color:#f92672">import</span> User
@@ -387,16 +371,11 @@ tests faster.</p>
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>is_loaded()
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>do_login_with(locked_user)
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>validate_error_message_equals(<span style="color:#e6db74">&#34;Epic sadface: Sorry, this user has been locked out.&#34;</span>)
-</span></span></code></pre></div><p>Now that some tests are in place its possible to create the pytest.ini making use of options that playwright-pytest plugin offers.
-(for all the detail on playwright-pytest plugin consult playwright <a href="https://playwright.dev/python/docs/test-runners">documentation</a>)</p>
+</span></span></code></pre></div><p>Now that some tests are in place its possible to create the pytest.ini making use of options that playwright-pytest plugin offers. (for all the detail on playwright-pytest plugin consult playwright <a href="https://playwright.dev/python/docs/test-runners">documentation</a>)</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[pytest]
 </span></span><span style="display:flex;"><span>addopts = --base-url https://www.saucedemo.com/ --headed --browser chromium --browser firefox --browser webkit --screenshot only-on-failure --html=target/reports/report.html
-</span></span></code></pre></div><p>The above options will allow the tests to run in headed mode (by default playwright runs in headless mode) in all the
-browser playwright offers, saving a screenshot in case a test fails and in the end generating a html report.</p>
-<p>Up until where I could experiment, with the use of <code>pytest-parallel</code> dependency it is possible to create parallel tests
-runs. <strong>There is although a very important note from the playwright developers that is Playwright is not <a href="https://playwright.dev/python/docs/intro#threading">thread-safe</a></strong>
-(at least at the time of the writing of this article). To be safer I make use of the <code>workers</code> (process) option instead
-of <code>tests-per-worker</code> (threads) option, allowing each test to run in a distinct python process.
+</span></span></code></pre></div><p>The above options will allow the tests to run in headed mode (by default playwright runs in headless mode) in all the browser playwright offers, saving a screenshot in case a test fails and in the end generating a html report.</p>
+<p>Up until where I could experiment, with the use of <code>pytest-parallel</code> dependency it is possible to create parallel tests runs. <strong>There is although a very important note from the playwright developers that is Playwright is not <a href="https://playwright.dev/python/docs/intro#threading">thread-safe</a></strong> (at least at the time of the writing of this article). To be safer I make use of the <code>workers</code> (process) option instead of <code>tests-per-worker</code> (threads) option, allowing each test to run in a distinct python process.
 To enable this it is only needed to add the option to the <em>pytest.ini addopts</em> as displayed below.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[pytest]
 </span></span><span style="display:flex;"><span>addopts = --base-url https://www.saucedemo.com/ --headed --browser chromium --browser firefox --browser webkit --screenshot only-on-failure --html=target/reports/report.html --workers auto
@@ -414,10 +393,8 @@ To enable this it is only needed to add the option to the <em>pytest.ini addopts
 <li>concurrent time (3 distinct processes): 7.04s</li>
 <li>concurrent time (auto): 6.00s</li>
 </ul>
-<p>This means around <strong>39%</strong> less time when running with the <code>auto</code> flag enabled in headed mode and around <strong>44%</strong> when running in
-headless mode.</p>
-<p>Other good particularity of <em>python-parallel</em> is the synchronization of results is performed internally, so the test
-report is not affected.</p>
+<p>This means around <strong>39%</strong> less time when running with the <code>auto</code> flag enabled in headed mode and around <strong>44%</strong> when running in headless mode.</p>
+<p>Other good particularity of <em>python-parallel</em> is the synchronization of results is performed internally, so the test report is not affected.</p>
 <h2 id="other-links-and-references">Other Links and References</h2>
 <h3 id="references">References</h3>
 <ul>
