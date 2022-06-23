@@ -211,63 +211,120 @@
 
                 
                 <h1 id="getting-started-with-playwright-using-python">Getting Started with Playwright using Python</h1>
-<p>With Playwright being more and more accepted in the <em>world of test automation</em> and python a great programming language to create automation I&rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting my experiment in this article.</p>
-<p>Some of what is found in the article can also be found throughout <a href="https://playwright.dev/python/docs/intro">Playwright documentation</a>, although in a bit more condensed manner.</p>
-<h2 id="software-versions">Software versions</h2>
+<p>With Playwright already being a mainstream choice in the <em>test automation world</em> and python a great programming language and create automation I&rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting it in this article.</p>
+<h2 id="main-libraries-used">Main libraries used</h2>
 <p>The following software and libs where used:</p>
 <ul>
 <li>Python 3.9 (minimum requirement for playwright is &gt;= python 3.7)</li>
-<li>Pip</li>
 <li>Playwright 1.22 for python</li>
 <li>Pytest - Playwright pytest plugin</li>
-<li>PyCharm Community Edition</li>
 </ul>
 <h2 id="installing-dependencies">Installing dependencies</h2>
-<p>As in any other python project, it is a good practice to create a <em>virtual environment</em> (venv) before start installing any dependency.
-Since I was using PyCharm as soon as I created the project I could create the virtual env directly but if you are reusing an old project or your project don&rsquo;t have a venv yet, and you&rsquo;re working with PyCharm you can follow their <a href="https://www.jetbrains.com/help/pycharm/creating-virtual-environment.html#python_create_virtual_env">tutorial</a> on how to create a virtual environment.</p>
-<p>In the case of other IDE is being used, or the use of CLI is preferred consider checking the documentation on the topic <a href="https://virtualenv.pypa.io/en/stable/">here</a></p>
+<p>As in any other python project, it is a good practice to create a <em>virtual environment</em> before installing any dependency.
+Since I was using PyCharm as soon as I created the project I allowed me also to create the virtual environment directly. In case of an old project that doesn&rsquo;t have yet a virtual environment, using the same IDE its possible to create the same environment following their <a href="https://www.jetbrains.com/help/pycharm/creating-virtual-environment.html#python_create_virtual_env">tutorial</a>.</p>
+<p>In the case of using other IDE or creating the virtual environment for the first time making use of the CLI one of the resources that explains it can be found <a href="https://virtualenv.pypa.io/en/stable/">here</a></p>
 <p>After creating the virtual environment, activate it and upgrade pip to its latest version.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>source ./&lt;the_venv_name&gt;/bin/activate
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>pip install --upgrade pip
-</span></span></code></pre></div><p>For windows, follow <a href="https://mothergeo-py.readthedocs.io/en/latest/development/how-to/venv-win.html">this article</a> that will help to create and activate the virtual environment.</p>
-<p>In the project root folder create a requirements.txt file with the following contents. I&rsquo;m not forcing any versions of the dependencies but if wanted this can be done as explained <a href="https://realpython.com/lessons/using-requirement-files/#:~:text=A%20Beginner's%20Guide%20to%20Pip&amp;text=A%20requirements%20file%20is%20a,current%20projects%20dependencies%20to%20stdout%20.">here</a></p>
-<p>This will allow you to create the project with all its dependencies in other environment. (e.g. CI pipeline)</p>
+</span></span></code></pre></div><p>In the project root folder create a requirements.txt file with the following contents. <em>(I&rsquo;m not forcing any versions of the dependencies but if wanted this can be done as explained <a href="https://realpython.com/lessons/using-requirement-files/#:~:text=A%20Beginner's%20Guide%20to%20Pip&amp;text=A%20requirements%20file%20is%20a,current%20projects%20dependencies%20to%20stdout%20.">here</a>)</em></p>
+<p>This will allow to create the project with all its dependencies in other environment. (e.g. CI pipeline)</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>### Project Dependencies ###
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>pytest
-</span></span><span style="display:flex;"><span>playwright
 </span></span><span style="display:flex;"><span>pytest-playwright
 </span></span><span style="display:flex;"><span>pytest-parallel
 </span></span><span style="display:flex;"><span>pytest-html
-</span></span></code></pre></div><p>After saving the requirements file it is possible to install the project dependencies using <code>pip</code>. For that open a terminal in the project root folder and type:</p>
+</span></span><span style="display:flex;"><span>playwright
+</span></span><span style="display:flex;"><span>PyYAML
+</span></span><span style="display:flex;"><span>dynaconf
+</span></span><span style="display:flex;"><span>flake8
+</span></span></code></pre></div><p>After saving the requirements file it is possible to install the project dependencies using <code>pip</code> by using the follwing command.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>pip install -r requirements.txt
-</span></span></code></pre></div><p>After the project dependencies are installed it is time to install the Playwright browsers (<code>chromium</code>, <code>firefox</code> and <code>webkit</code>) using the following command in the CLI.</p>
+</span></span></code></pre></div><p>After the project dependencies are installed it is time to install the Playwright browsers (<code>chromium</code>, <code>firefox</code> and <code>webkit</code>) by typing the command</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>playwright install
 </span></span></code></pre></div><p>For non-default options to browser installation the documentation can be found <a href="https://playwright.dev/python/docs/browsers">here</a></p>
 <h2 id="creating-the-automation">Creating the Automation</h2>
 <p>There are some different options described both on the Playwright documentation page and throughout the web.
-I will center the article on the usage of the Playwright synchronous python API and the creation of <code>Page Objects</code> that will be used to implement the tests.</p>
+I will center the article on the usage of the Playwright with python synchronous API and the creation of <code>Page Objects</code> that will be used later to implement the tests.</p>
 <p>For this demo I will use one of the common web pages for automation training - <a href="https://www.saucedemo.com/">https://www.saucedemo.com/</a></p>
-<h3 id="project-structure">Project structure</h3>
+<h3 id="project-main-structure">Project main structure</h3>
 <p>Since this is a simple project the folder structure will also be simple. Below I represent the most important files and folders of this structure</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>project-root/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>playwright-test-automation/
+</span></span><span style="display:flex;"><span>├─ .github/
+</span></span><span style="display:flex;"><span>│  ├─ workflows/
 </span></span><span style="display:flex;"><span>├─ data_model/
 </span></span><span style="display:flex;"><span>├─ page_objects/
 </span></span><span style="display:flex;"><span>├─ tests/
 </span></span><span style="display:flex;"><span>├─ utils/
-</span></span><span style="display:flex;"><span>├─ .gitignore
+</span></span><span style="display:flex;"><span>├─ .secrets.yaml
+</span></span><span style="display:flex;"><span>├─ config.py
 </span></span><span style="display:flex;"><span>├─ pytest.ini
-</span></span><span style="display:flex;"><span>├─ README.md
+</span></span><span style="display:flex;"><span>├─ requirements.txt
+</span></span><span style="display:flex;"><span>├─ settings.yaml
 </span></span></code></pre></div><h3 id="implementation">Implementation</h3>
-<p>For this demo it will only be created one very simple class that will allow to create a User objects that can be used in different login tests</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> dataclasses <span style="color:#f92672">import</span> dataclass, asdict
+<p>To mimic multiple environments configurations I&rsquo;ve used <a href="https://www.dynaconf.com/">dynaconf</a> as the configuration manager. To set it up there is the need run the command</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>dynaconf init -f yaml
+</span></span></code></pre></div><p>The above command will create the files <code>.secrets.yaml</code>, <code>settings.yaml</code>, <code>config.py</code>.</p>
+<p>Since the use of multiple environments is not enable by default, to use this feature there is the need to add the flag <code>environments=True</code> to the <code>config.py</code> file as displayed below.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> dynaconf <span style="color:#f92672">import</span> Dynaconf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>settings <span style="color:#f92672">=</span> Dynaconf(
+</span></span><span style="display:flex;"><span>    envvar_prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;DYNACONF&#34;</span>,
+</span></span><span style="display:flex;"><span>    settings_files<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;settings.yaml&#39;</span>, <span style="color:#e6db74">&#39;.secrets.yaml&#39;</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># To add multiple environments</span>
+</span></span><span style="display:flex;"><span>    environments<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>Since I&rsquo;m only mimic multiple environments and not in fact having multiple environments I will preserve the same setting for each environment, which in a real case would be different. I can achieve the said configuration using the <code>settings.yaml</code> and <code>.secrets.yaml</code> files. This will allow for each person that uses a <em>real</em> project to have their own set of configurations.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># settings.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">qa</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">users</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">valid_user</span>: <span style="color:#e6db74">&#34;standard_user&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">invalid_user</span>: <span style="color:#e6db74">&#34;invalid_user&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">locked_user</span>: <span style="color:#e6db74">&#34;locked_out_user&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">reports_path</span>: <span style="color:#e6db74">&#34;target/reports&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">preprod</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">users</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">valid_user</span>: <span style="color:#e6db74">&#34;standard_user&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">invalid_user</span>: <span style="color:#e6db74">&#34;invalid_user&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">locked_user</span>: <span style="color:#e6db74">&#34;locked_out_user&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">reports_path</span>: <span style="color:#e6db74">&#34;target/reports&#34;</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># .secrets.yaml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">qa</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">passwords</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">valid_user</span>: <span style="color:#e6db74">&#34;secret_sauce&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">invalid_user</span>: <span style="color:#e6db74">&#34;secret_sauce&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">locked_user</span>: <span style="color:#e6db74">&#34;secret_sauce&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">preprod</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">passwords</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">valid_user</span>: <span style="color:#e6db74">&#34;secret_sauce&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">invalid_user</span>: <span style="color:#e6db74">&#34;secret_sauce&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">locked_user</span>: <span style="color:#e6db74">&#34;secret_sauce&#34;</span>
+</span></span></code></pre></div><p>As I will talk further ahead the <code>.secrets.yaml</code> should only be used as a local file or if used in a CI workflow should be treated as very sensitive data having a complete lifecycle of <em>creation</em> and <em>clean up</em> during the same workflow.</p>
+<p>There is one final step needed to be able to change the environment and one way is adding a new argument to the pytest that can after be provided using the CLI. To achieve this I&rsquo;ve added to the <code>conftest.py</code> the following content.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pytest
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> config <span style="color:#f92672">import</span> settings
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pytest_addoption</span>(parser):
+</span></span><span style="display:flex;"><span>    parser<span style="color:#f92672">.</span>addoption(<span style="color:#e6db74">&#34;--env&#34;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;store&#34;</span>, default<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;qa&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@pytest</span><span style="color:#f92672">.</span>fixture(scope<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;session&#39;</span>, autouse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">config_loader</span>(pytestconfig):
+</span></span><span style="display:flex;"><span>    settings<span style="color:#f92672">.</span>configure(FORCE_ENV_FOR_DYNACONF<span style="color:#f92672">=</span>pytestconfig<span style="color:#f92672">.</span>getoption(<span style="color:#e6db74">&#34;env&#34;</span>))
+</span></span></code></pre></div><p>This will enable to run of the test automation by default using the <em>QA</em> environment but by adding the <code>--env=&lt;desired_value&gt;</code> argument it is possible to assign a diffent environment.</p>
+<p>It is now time to start creating the data classes that it will be used for the automation. For the purpose of this demo I&rsquo;ve chosen to create one very simple data class that will allow to create <em>User objects</em> that can be used in different login tests.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> dataclasses <span style="color:#f92672">import</span> dataclass
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@dataclass</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>:
 </span></span><span style="display:flex;"><span>    username: str
 </span></span><span style="display:flex;"><span>    password: str
-</span></span></code></pre></div><p>Following the Playwright <a href="https://playwright.dev/python/docs/pom">documentation</a>, for the landing page (login) the following Page Object class can be created.</p>
+</span></span></code></pre></div><p>For page objects I&rsquo;ve followed what is stated in the Playwright <a href="https://playwright.dev/python/docs/pom">documentation</a>, so for the landing page (login) the following Page Object class can be created.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> playwright.sync_api <span style="color:#f92672">import</span> Page, expect
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> model.user <span style="color:#f92672">import</span> User
 </span></span><span style="display:flex;"><span>
@@ -299,7 +356,7 @@ I will center the article on the usage of the Playwright synchronous python API 
 </span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_password_selector)<span style="color:#f92672">.</span>click()
 </span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_password_selector)<span style="color:#f92672">.</span>type(user<span style="color:#f92672">.</span>password)
 </span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_login_button_selector)<span style="color:#f92672">.</span>click()
-</span></span></code></pre></div><p>And for catalog a similar class can be created. For this demo this class will be incomplete since it is where you can do a big part of the actions (if it was a real shop) so the same class would have more methods.</p>
+</span></span></code></pre></div><p>And for catalog a similar class can be also created. For the purpose of this demo the page object class displayed below will be incomplete since most of the actions that mimic a possible user behavior will not be added to this class.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> playwright.sync_api <span style="color:#f92672">import</span> Page, expect
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> logging
 </span></span><span style="display:flex;"><span>
@@ -327,13 +384,14 @@ I will center the article on the usage of the Playwright synchronous python API 
 </span></span><span style="display:flex;"><span>        expect(self<span style="color:#f92672">.</span>page<span style="color:#f92672">.</span>locator(self<span style="color:#f92672">.</span>_title))<span style="color:#f92672">.</span>to_have_text(text)
 </span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    (<span style="color:#f92672">...</span>)
-</span></span></code></pre></div><p>Since the site allow us to use some distinct users it is possible to create a couple simple tests. This will be quite useful ahead since will allow us to create concurrent python processes creating the possibility of running the tests faster.</p>
+</span></span></code></pre></div><p>Since the site allow us to use some distinct users it is possible to create a couple simple tests. This will be quite useful since will allow us to create concurrent python processes making it possible to run tests faster.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pytest
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> model.user <span style="color:#f92672">import</span> User
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pages.sauce_demo_pages.catalog_page <span style="color:#f92672">import</span> CatalogPage
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pages.sauce_demo_pages.login_page <span style="color:#f92672">import</span> LoginPage
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> playwright.sync_api <span style="color:#f92672">import</span> Page
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> config <span style="color:#f92672">import</span> settings
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@pytest</span><span style="color:#f92672">.</span>fixture
@@ -349,7 +407,7 @@ I will center the article on the usage of the Playwright synchronous python API 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_valid_user_login</span>(login_page, catalog_page):
-</span></span><span style="display:flex;"><span>    valid_user <span style="color:#f92672">=</span> User(<span style="color:#e6db74">&#34;standard_user&#34;</span>, <span style="color:#e6db74">&#34;secret_sauce&#34;</span>)
+</span></span><span style="display:flex;"><span>    valid_user <span style="color:#f92672">=</span> User(settings<span style="color:#f92672">.</span>users<span style="color:#f92672">.</span>valid_user, settings<span style="color:#f92672">.</span>passwords<span style="color:#f92672">.</span>valid_user)
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>goto_login_page()
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>is_loaded()
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>do_login_with(valid_user)
@@ -358,7 +416,7 @@ I will center the article on the usage of the Playwright synchronous python API 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_invalid_user_login</span>(login_page):
-</span></span><span style="display:flex;"><span>    invalid_user <span style="color:#f92672">=</span> User(<span style="color:#e6db74">&#34;invalid_user&#34;</span>, <span style="color:#e6db74">&#34;secret_sauce&#34;</span>)
+</span></span><span style="display:flex;"><span>    user <span style="color:#f92672">=</span> User(settings<span style="color:#f92672">.</span>users<span style="color:#f92672">.</span>invalid_user, settings<span style="color:#f92672">.</span>passwords<span style="color:#f92672">.</span>invalid_user)
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>goto_login_page()
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>is_loaded()
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>do_login_with(invalid_user)
@@ -366,7 +424,7 @@ I will center the article on the usage of the Playwright synchronous python API 
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_locked_user_login</span>(login_page):
-</span></span><span style="display:flex;"><span>    locked_user <span style="color:#f92672">=</span> User(<span style="color:#e6db74">&#34;locked_out_user&#34;</span>, <span style="color:#e6db74">&#34;secret_sauce&#34;</span>)
+</span></span><span style="display:flex;"><span>    user <span style="color:#f92672">=</span> User(settings<span style="color:#f92672">.</span>users<span style="color:#f92672">.</span>locked_user, settings<span style="color:#f92672">.</span>passwords<span style="color:#f92672">.</span>locked_user)
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>goto_login_page()
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>is_loaded()
 </span></span><span style="display:flex;"><span>    login_page<span style="color:#f92672">.</span>do_login_with(locked_user)
@@ -376,10 +434,10 @@ I will center the article on the usage of the Playwright synchronous python API 
 </span></span><span style="display:flex;"><span>addopts = --base-url https://www.saucedemo.com/ --headed --browser chromium --browser firefox --browser webkit --screenshot only-on-failure --html=target/reports/report.html
 </span></span></code></pre></div><p>The above options will allow the tests to run in headed mode (by default playwright runs in headless mode) in all the browser playwright offers, saving a screenshot in case a test fails and in the end generating a html report.</p>
 <p>Up until where I could experiment, with the use of <code>pytest-parallel</code> dependency it is possible to create parallel tests runs. <strong>There is although a very important note from the playwright developers that is Playwright is not <a href="https://playwright.dev/python/docs/intro#threading">thread-safe</a></strong> (at least at the time of the writing of this article). To be safer I make use of the <code>workers</code> (process) option instead of <code>tests-per-worker</code> (threads) option, allowing each test to run in a distinct python process.
-To enable this it is only needed to add the option to the <em>pytest.ini addopts</em> as displayed below.</p>
+To enable this one only needs to append a new option (argument) to the <em>pytest.ini addopts</em> as displayed below.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[pytest]
 </span></span><span style="display:flex;"><span>addopts = --base-url https://www.saucedemo.com/ --headed --browser chromium --browser firefox --browser webkit --screenshot only-on-failure --html=target/reports/report.html --workers auto
-</span></span></code></pre></div><p>For this simple demo the following times were achieved:</p>
+</span></span></code></pre></div><p>As a comparison between a single process and concurrent processes for this simple demo the following times were achieved:</p>
 <p>in total 9 test (3 test in 3 browser)</p>
 <p>headed mode:</p>
 <ul>
@@ -393,12 +451,136 @@ To enable this it is only needed to add the option to the <em>pytest.ini addopts
 <li>concurrent time (3 distinct processes): 7.04s</li>
 <li>concurrent time (auto): 6.00s</li>
 </ul>
-<p>This means around <strong>39%</strong> less time when running with the <code>auto</code> flag enabled in headed mode and around <strong>44%</strong> when running in headless mode.</p>
-<p>Other good particularity of <em>python-parallel</em> is the synchronization of results is performed internally, so the test report is not affected.</p>
-<h2 id="other-links-and-references">Other Links and References</h2>
+<p>This means when using concurrency the automation is around <strong>39%</strong> less time when running with the <code>auto</code> flag enabled in headed mode and around <strong>44%</strong> when running in headless mode.</p>
+<p>Other good particularity of <em>python-parallel</em> library is that the synchronization of results is performed internally, so the test report in the end is not affected.</p>
+<h2 id="ci-workflow">CI Workflow</h2>
+<p>To create a CI workflow I&rsquo;ve used Github Actions. Similar workflows can be created for other CI solution providers.</p>
+<p>For this demo I&rsquo;ve experimented with two workflows with both considering that the environment to be used is <em>QA</em>.
+For the first workflow, instead of the usage <code>.secrets.yaml</code> file I will provide the contents of the file by using <code>github secrets</code> while in the second there will be a small lifecycle around the stated file.</p>
+<ul>
+<li>Workflow considering the usage of github secrets</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># This workflow will install Python dependencies, run tests and lint with a single version of Python</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">Playwright Python UI testing</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">REQUIREMENTS_FILENAME</span>: <span style="color:#ae81ff">requirements-test.txt</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Defining the contents of the .secret.yaml file as env variables using github secrets.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">DYNACONF_PASSWORDS.VALID_USER</span>: <span style="color:#ae81ff">${{ secrets.DYNACONF_PASSWORDS_VALID_USER }}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">DYNACONF_PASSWORDS.INVALID_USER</span>: <span style="color:#ae81ff">${{ secrets.DYNACONF_PASSWORDS_INVALID_USER }}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">DYNACONF_PASSWORDS.LOCKED_USER</span>: <span style="color:#ae81ff">${{ secrets.DYNACONF_PASSWORDS_LOCKED_USER }}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">push</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">branches</span>: [ <span style="color:#e6db74">&#34;main&#34;</span> ]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">pull_request</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">branches</span>: [ <span style="color:#e6db74">&#34;main&#34;</span> ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">permissions</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">contents</span>: <span style="color:#ae81ff">read</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">test_job</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">ubuntu-latest</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v3</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Set up Python 3.10</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/setup-python@v3</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">with</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">python-version</span>: <span style="color:#e6db74">&#34;3.10&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Install dependencies</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        cd playwright-python-ui
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        python -m pip install --upgrade pip
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        if [ -f ${{env.REQUIREMENTS_FILENAME}} ]; then pip install -r ${{env.REQUIREMENTS_FILENAME}}; fi</span>        
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Ensure browsers are installed</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        cd playwright-python-ui
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        python -m playwright install --with-deps</span>        
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Lint with flake8</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        # stop the build if there are Python syntax errors or undefined names
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics</span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Test with pytest</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        cd playwright-python-ui
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        pytest tests/test_demo.py</span>        
+</span></span></code></pre></div><ul>
+<li>Workflow considering the usage of .secrets.yaml file</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Workflow that considers the download of the .secrets.yaml or .env file from a safe repository.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">Playwright Python UI testing</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">env</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">REQUIREMENTS_FILENAME</span>: <span style="color:#ae81ff">requirements-test.txt</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">push</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">branches</span>: [ <span style="color:#e6db74">&#34;main&#34;</span> ]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">pull_request</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">branches</span>: [ <span style="color:#e6db74">&#34;main&#34;</span> ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">permissions</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">contents</span>: <span style="color:#ae81ff">read</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">test_job</span>:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">ubuntu-latest</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v3</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Set up Python 3.10</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/setup-python@v3</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">with</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">python-version</span>: <span style="color:#e6db74">&#34;3.10&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Install dependencies</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        cd playwright-python-ui
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        python -m pip install --upgrade pip
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        if [ -f ${{env.REQUIREMENTS_FILENAME}} ]; then pip install -r ${{env.REQUIREMENTS_FILENAME}}; fi</span>        
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Ensure browsers are installed</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        cd playwright-python-ui
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        python -m playwright install --with-deps</span>        
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Download .secrets.yaml</span>
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># Considering that there was a prior step to retrive of an api token that would allow the download of the .secrets.yaml file securily </span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: <span style="color:#ae81ff">| </span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">curl -iL &#34;https://thisURLdoesntexist.com&#34; |grep -A 100 &#34;qa&#34; &gt;&gt; .secrets.yaml</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Lint with flake8</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        # stop the build if there are Python syntax errors or undefined names
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics</span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Test with pytest</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        cd playwright-python-ui
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        pwd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        pytest tests/test_demo.py</span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Delete .secrets.yaml</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: |<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        echo &#34;Clean up!&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        rm -rf .secrets.yaml</span>        
+</span></span></code></pre></div><h2 id="other-links-and-references">Other Links and References</h2>
+<h3 id="demo-project">Demo project</h3>
+<p><a href="https://github.com/O2F/qa-frwks-bootstraps/tree/main/playwright-python-ui">GitHub Repo</a></p>
 <h3 id="references">References</h3>
 <ul>
 <li>dataclasses: <a href="https://realpython.com/python-data-classes/">https://realpython.com/python-data-classes/</a></li>
+<li>Playwright python documentation: <a href="https://playwright.dev/python/docs/intro">https://playwright.dev/python/docs/intro</a></li>
 </ul>
 <h3 id="links">Links</h3>
 <ul>

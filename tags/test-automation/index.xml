@@ -13,8 +13,9 @@
       <pubDate>Thu, 09 Jun 2022 14:16:13 +0100</pubDate>
       
       <guid>https://o2f.github.io/post/getting-started-with-playwright-and-python/</guid>
-      <description>Getting Started with Playwright using Python With Playwright being more and more accepted in the world of test automation and python a great programming language to create automation I&amp;rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting my experiment in this article.
-Some of what is found in the article can also be found throughout Playwright documentation, although in a bit more condensed manner.</description>
+      <description>Getting Started with Playwright using Python With Playwright already being a mainstream choice in the test automation world and python a great programming language and create automation I&amp;rsquo;ve decided to give it a go to create a demo project using Playwright and Python and in the process documenting it in this article.
+Main libraries used The following software and libs where used:
+Python 3.9 (minimum requirement for playwright is &amp;gt;= python 3.</description>
     </item>
     
   </channel>
